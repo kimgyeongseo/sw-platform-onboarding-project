@@ -29,7 +29,7 @@ export const TaksRow = ({ id, title, completed, deleteText }: TaskRowProps) => {
   }
 
   return (
-    <>
+    <div>
       <input width={"30px"} type="checkbox" checked={isChecked} onChange={() => setIsChecked(!isChecked)} />
       {isTextInput ? (
         <input
@@ -52,6 +52,6 @@ export const TaksRow = ({ id, title, completed, deleteText }: TaskRowProps) => {
       <span data-testid="xBtn" className={styles.Xbtn} onClick={deleteText}>
         &times;
       </span>
-    </>
+    </div>
   )
 }
