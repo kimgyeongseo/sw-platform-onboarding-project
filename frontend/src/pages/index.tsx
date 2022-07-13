@@ -1,5 +1,11 @@
+import { TaskList } from "@/todo/components/task-list/task-list"
+
 const Home = () => {
-  return <div>{/* write your code here */}</div>
+  return (
+    <div>
+      <TaskList />
+    </div>
+  )
 }
 
 export default Home
