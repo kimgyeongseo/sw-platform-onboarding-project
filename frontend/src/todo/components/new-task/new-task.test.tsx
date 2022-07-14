@@ -3,8 +3,8 @@ import { render, screen, fireEvent } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom"
 
-import { NewTaks } from "./new-task"
-import { Home } from "../../../pages/index"
+import { NewTask } from "./new-task"
+import Home from "../../../pages/index"
 
 describe("newTask component test", () => {
   it("test add input text to props data", () => {
@@ -15,11 +15,11 @@ describe("newTask component test", () => {
       { id: 3, title: "운동 계획 세우기", completed: false, deleteText: () => console.log(3) },
     ]
 
-    render(<NewTaks addText={mockSetState} userData={data} />)
+    render(<NewTask setData={mockSetState} userData={data} />)
 
     const textInput = screen.getByRole("textbox")
-    fireEvent.change(textInput, { target: { value: "새로운 데이터를 추가" } })
-    fireEvent.keyDown(textInput, { key: "Enter", code: 13 })
+    userEvent.type(textInput, "새로운 데이터를 추가")
+    userEvent.type(textInput, "{enter}")
 
     const textInfo = {
       id: 4,
@@ -29,7 +29,7 @@ describe("newTask component test", () => {
     }
     const newUserData = data.concat(textInfo)
 
-    expect(textInput).toHaveTextContent("")
+    expect(textInput).toHaveValue("")
     expect(mockSetState).toHaveBeenCalled()
     // expect(mockSetState(data, textInfo)).toEqual(newUserData)
   })
