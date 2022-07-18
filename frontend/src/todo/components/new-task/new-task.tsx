@@ -1,13 +1,16 @@
 import React, { useState, Dispatch, SetStateAction } from "react"
 
+import styles from "./new-task.module.css"
+
 type DataT = { id: number; title: string; completed: boolean; deleteText: () => void }[]
 
 interface PropsT {
   userData: DataT
   setData: Dispatch<SetStateAction<DataT>>
+  setAllChecked: Dispatch<SetStateAction<void>>
 }
 
-export const NewTask = ({ userData, setData }: PropsT) => {
+export const NewTask = ({ userData, setData, setAllChecked }: PropsT) => {
   const [inputValue, setInputValue] = useState("")
 
   const resetInputValue = (e: any) => {
@@ -19,9 +22,17 @@ export const NewTask = ({ userData, setData }: PropsT) => {
     }
   }
 
+  const onClickFn = () => {
+    if (userData.length) {
+      setAllChecked()
+    }
+  }
+
   return (
     <div>
-      <span>&#8595;</span>
+      <button type="button" className={styles.btn} onClick={onClickFn}>
+        &#8595;
+      </button>
       <input
         type={"text"}
         value={inputValue}

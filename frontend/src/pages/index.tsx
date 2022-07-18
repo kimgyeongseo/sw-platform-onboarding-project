@@ -9,9 +9,13 @@ const Home = () => {
     { id: 2, title: "저녁 메뉴 정하기", completed: true, deleteText: () => console.log("this is delete function") },
     { id: 3, title: "운동 계획 세우기", completed: false, deleteText: () => console.log("hiiii") },
   ])
+
+  const setAllChecked = () => {
+    console.log("setAllChecked")
+  }
   return (
     <div>
-      <NewTask userData={data} setData={setData} />
+      <NewTask userData={data} setData={setData} setAllChecked={setAllChecked} />
       <TaskList userData={data} />
     </div>
   )
