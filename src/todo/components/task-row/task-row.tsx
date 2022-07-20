@@ -1,6 +1,16 @@
 import React, {useState} from 'react'
 
-import { TaskItemProps } from '@/todo/types/todo-schema';
+export interface TaskProps{
+    id: string;
+    title: string;
+    isChecked: boolean;
+}
+
+export interface TaskItemProps{
+    task: TaskProps;
+    handleTaskComplete: (event: React.ChangeEvent<HTMLInputElement>, id: string) => void;
+    handleTaskDelete: (id: string) => void;
+}
 
 const Todo = (props: TaskItemProps) => {
     return (

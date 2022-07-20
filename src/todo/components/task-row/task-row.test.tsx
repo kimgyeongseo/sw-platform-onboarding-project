@@ -1,9 +1,8 @@
-import { TaskProps } from "@/todo/types/todo-schema";
-import {cleanup, fireEvent, render, screen} from "@testing-library/react"
+import {render, screen} from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 
+import { TaskProps } from "../task-row/task-row";
 import Todo from "./task-row"
-
-afterEach(cleanup);
 
 describe('<Todo />', () => {
     const changeTest = jest.fn();
@@ -13,45 +12,51 @@ describe('<Todo />', () => {
         title: "task 1",
         isChecked: false
     };
-    it("render task", ()=>{
+
+    it("renders task", ()=>{
         render(<Todo task={sample} handleTaskComplete={changeTest} handleTaskDelete={deleteTest}/>);
-        const taskCheckbox = screen.getByLabelText(sample.title) as HTMLInputElement;
-        const title = screen.getByText(sample.title).textContent;
-        const deleteButton = screen.getByText("X");
+        const taskCheckbox = screen.getByRole('checkbox');
+        const title = screen.getByLabelText(sample.title).id;
+        const deleteButton = screen.getByRole('button');
+
         expect(taskCheckbox).toBeInTheDocument();
         expect(title).toEqual("task 1");
         expect(deleteButton).toBeInTheDocument();
     });
     
-    it("handleTaskComplete is called when clicked", ()=>{
+    it("calls handleTaskComplete when checkbox clicked", ()=>{
         render(<Todo task={sample} handleTaskComplete={changeTest} handleTaskDelete={deleteTest}/>);
-        const taskCheckbox = screen.getByLabelText(sample.title) as HTMLInputElement;
-        fireEvent.click(taskCheckbox);
+
+        const taskCheckbox = screen.getByRole('checkbox');
+        userEvent.click(taskCheckbox);
+
         expect(changeTest).toBeCalledTimes(1);
     });
     
-    it("task is completed when true", ()=>{
+    it("completes task when true value comes", ()=>{
         sample.isChecked=true;
+
         render(<Todo task={sample} handleTaskComplete={changeTest} handleTaskDelete={deleteTest}/>);
-        const taskCheckbox = screen.getByLabelText(sample.title) as HTMLInputElement;
-        const title = screen.getByText(sample.title);
+        const taskCheckbox = screen.getByRole('checkbox') as HTMLInputElement;
+
         expect(taskCheckbox.checked).toEqual(true);
-        expect(title).toHaveStyle('text-decoration: line-through');
     });
     
-    it("task is not completed when false", ()=>{
+    it("is not complete task when false value comes", ()=>{
         sample.isChecked=false;
+
         render(<Todo task={sample} handleTaskComplete={changeTest} handleTaskDelete={deleteTest}/>);
-        const taskCheckbox = screen.getByLabelText(sample.title) as HTMLInputElement;
-        const title = screen.getByText(sample.title);
+        const taskCheckbox = screen.getByRole('checkbox') as HTMLInputElement;
+
         expect(taskCheckbox.checked).toEqual(false);
-        expect(title).not.toHaveStyle('text-decoration: line-through');
     });
     
-    it("handleTaskDelete is called when button clicked", ()=>{
+    it("calls handleTaskDelete when button clicked", ()=>{
         render(<Todo task={sample} handleTaskComplete={changeTest} handleTaskDelete={deleteTest}/>);
-        const deleteButton = screen.getByText("X");
-        fireEvent.click(deleteButton);
+
+        const deleteButton = screen.getByRole('button');
+        userEvent.click(deleteButton);
+
         expect(deleteTest).toBeCalledWith(sample.id);
     });
 });
